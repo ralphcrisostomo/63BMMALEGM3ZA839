@@ -56,3 +56,8 @@ export const _calculateScore = (currentItem, nextItem) => {
   }
   return score;
 };
+
+export const _updateScore = (gameData) => gameData.map((frame, index) => ({
+  ...frame,
+  score: _calculateScore(frame, gameData[index + 1]),
+}));

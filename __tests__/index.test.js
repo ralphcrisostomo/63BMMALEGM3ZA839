@@ -7,6 +7,7 @@ import {
   _updateScoreTypeNPins,
   _sum,
   _calculateScore,
+  _updateScore,
 } from '../index';
 
 describe('Roll', () => {
@@ -172,6 +173,50 @@ describe('Roll', () => {
         },
       ];
       expect(_calculateScore(gameDataMock[0], gameDataMock[1])).toEqual(18);
+    });
+    it('should update score on normal', () => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [4, 4],
+        },
+      ];
+      const gameDataExpected = [
+        {
+          score: 8,
+          scoreType: 'normal',
+          pins: [4, 4],
+        },
+      ];
+      expect(_updateScore(gameDataMock)).toEqual(gameDataExpected);
+    });
+    it('should update score on spare', () => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: 'spare',
+          pins: [5, 5],
+        },
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [4, 4],
+        },
+      ];
+      const gameDataExpected = [
+        {
+          score: 14,
+          scoreType: 'spare',
+          pins: [5, 5],
+        },
+        {
+          score: 8,
+          scoreType: 'normal',
+          pins: [4, 4],
+        },
+      ];
+      expect(_updateScore(gameDataMock)).toEqual(gameDataExpected);
     });
   });
 });
