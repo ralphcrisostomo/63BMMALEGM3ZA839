@@ -14,6 +14,7 @@ import {
   _getGameData,
   _addNewFrameToGameData,
   _isNotValidPinCount,
+  _getFormattedScores,
 } from '../index';
 
 describe('Roll', () => {
@@ -329,12 +330,34 @@ describe('Roll', () => {
       ];
       expect(_isNotValidPinCount(gameDataMock, 10)).toBeTruthy();
     });
+    it('should get formatted scores', () => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: 'spare',
+          pins: [5, 5],
+        },
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [4],
+        },
+        {
+          score: 0,
+          scoreType: 'strike',
+          pins: [4],
+        },
+      ];
+      // console.log(_getFormattedScores(gameDataMock));
+      expect(typeof _getFormattedScores(gameDataMock)).toEqual('string');
+    });
   });
 });
 
 
 describe('Score', () => {
-  it('should return a message', () => {
-    expect(typeof score()).toEqual('string');
+  it('should return a message', async (done) => {
+    expect(typeof await score()).toEqual('string');
+    done();
   });
 });

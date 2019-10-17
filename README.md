@@ -16,10 +16,14 @@
 # Install all dependencies
 $ yarn install
 
-
 # Test
-$ yarn test 
+$ yarn test
+
+# Play bowling 
+# Input should be numerical from 0 to 10
+$ yarn roll 10 
+
+# Show bowling score
+$ yarn score
 
 ```
-## Todo:
-

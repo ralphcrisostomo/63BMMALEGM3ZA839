@@ -1,4 +1,5 @@
 import fs from 'fs';
+import chalk from 'chalk';
 
 const MESSAGE = {
   INVALID_INPUT_PIN: 'Input should be numerical from 0 to 10',
@@ -113,6 +114,25 @@ export const _addNewFrameToGameData = async (gameData) => {
 export const _isNotValidPinCount = (gameData, pin) => (!!(((gameData[gameData.length - 1].pins.length !== 2)
       || ((gameData[gameData.length - 1].pins[0] || 0) + pin < 10))));
 
+export const _getFormattedScores = (gameData) => {
+  let message = '';
+
+  gameData.forEach((frame, index) => {
+    let color = 'cyan';
+    if (frame.scoreType === 'strike') {
+      color = 'red';
+    } else if (frame.scoreType === 'spare') {
+      color = 'yellow';
+    }
+    message += chalk[color](`
+    Frame: ${index + 1}
+    Pins: ${frame.pins} 
+    Type: ${frame.scoreType}
+    Score: ${frame.score}    
+    `);
+  });
+  return message;
+};
 
 export const roll = async (pin) => {
   if (_isNotValidPin(pin)) { return MESSAGE.INVALID_INPUT_PIN; }
@@ -129,10 +149,13 @@ export const roll = async (pin) => {
     await _writeGameData(GAME_FILE_NAME, updatedGameDataC);
   }
 
-  return `${JSON.stringify(updatedGameDataC, null, 2)}`;
+  return _getFormattedScores(gameData);
 };
 
-export const score = () => '';
+export const score = async () => {
+  const gameData = await _getGameData();
+  return _getFormattedScores(gameData);
+};
 
 const run = async () => {
   let message = '';
