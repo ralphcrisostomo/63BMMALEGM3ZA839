@@ -1,0 +1,42 @@
+[
+  {
+    "score": 2,
+    "scoreType": "normal",
+    "pins": [
+      1,
+      1
+    ]
+  },
+  {
+    "score": 8,
+    "scoreType": "normal",
+    "pins": [
+      4,
+      2
+    ]
+  },
+  {
+    "score": 16,
+    "scoreType": "normal",
+    "pins": [
+      5,
+      3
+    ]
+  },
+  {
+    "score": 46,
+    "scoreType": "strike",
+    "pins": [
+      10,
+      0
+    ]
+  },
+  {
+    "score": 0,
+    "scoreType": "strike",
+    "pins": [
+      10,
+      0
+    ]
+  }
+]

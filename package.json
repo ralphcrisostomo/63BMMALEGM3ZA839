@@ -6,6 +6,8 @@
   "author": "Ralf Crisostomo",
   "license": "MIT",
   "scripts": {
+    "roll": "ROLL=true babel-node index.js $*",
+    "score": "SCORE=true babel-node index.js $*",
     "test": "yarn lint --fix && NODE_ENV=test jest --coverage --config jest.config.js --detectOpenHandles",
     "lint": "eslint ."
   },

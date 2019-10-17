@@ -16,6 +16,8 @@
     },
     "rules": {
         "no-console": "off",
+        "radix": "off",
+        "max-len": "off",
 //        "camelcase": "off",
         "no-shadow": "off",
         "no-underscore-dangle": "off",

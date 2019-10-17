@@ -13,6 +13,7 @@ import {
   _readGameData,
   _getGameData,
   _addNewFrameToGameData,
+  _isNotValidPinCount,
 } from '../index';
 
 describe('Roll', () => {
@@ -170,7 +171,7 @@ describe('Roll', () => {
           pins: [4, 4],
         },
       ];
-      expect(_calculateScore(gameDataMock[0], gameDataMock[1])).toEqual(14);
+      expect(_calculateScore(gameDataMock[0], gameDataMock[1])).toEqual(22);
     });
     it('should calculate score for strike', () => {
       const gameDataMock = [
@@ -185,7 +186,7 @@ describe('Roll', () => {
           pins: [4, 4],
         },
       ];
-      expect(_calculateScore(gameDataMock[0], gameDataMock[1])).toEqual(18);
+      expect(_calculateScore(gameDataMock[0], gameDataMock[1])).toEqual(26);
     });
     it('should update score on normal', () => {
       const gameDataMock = [
@@ -219,7 +220,7 @@ describe('Roll', () => {
       ];
       const gameDataExpected = [
         {
-          score: 14,
+          score: 22,
           scoreType: 'spare',
           pins: [5, 5],
         },
@@ -312,6 +313,21 @@ describe('Roll', () => {
       ];
       expect(await _addNewFrameToGameData(gameDataMock)).toEqual(gameDataExpected);
       done();
+    });
+    it('should validate input pin count', () => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: 'spare',
+          pins: [5, 5],
+        },
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [4],
+        },
+      ];
+      expect(_isNotValidPinCount(gameDataMock, 10)).toBeTruthy();
     });
   });
 });

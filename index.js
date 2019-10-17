@@ -2,6 +2,7 @@ import fs from 'fs';
 
 const MESSAGE = {
   INVALID_INPUT_PIN: 'Input should be numerical from 0 to 10',
+  INVALID_PIN_COUNT: 'Invalid pin count',
 };
 
 const DIR = {
@@ -10,23 +11,6 @@ const DIR = {
 
 export const GAME_FILE_NAME = new Date().toISOString().slice(0, 10);
 
-export const roll = async (pin) => {
-  if (_isNotValidPin(pin)) {
-    return MESSAGE.INVALID_INPUT_PIN;
-  }
-  const gameData = await _getGameData();
-  const updatedGameDataA = await _addNewFrameToGameData(gameData);
-  const updatedGameDataB = await _updateScoreTypeNPins(updatedGameDataA, pin);
-  const updatedGameDataC = await _updateScore(updatedGameDataB);
-
-  return `${updatedGameDataC}`;
-};
-
-export const score = () => '';
-
-//
-// Note: Private methods
-//
 
 export const _getFrameModel = () => ({
   score: 0,
@@ -35,13 +19,13 @@ export const _getFrameModel = () => ({
 });
 
 export const _getScoreType = (frame, pin) => {
-  let type = pin === 10 || frame.pins[0] === 10
-    ? 'strike'
-    : 'normal';
-  if (frame.pins.length !== 2) {
-    type = frame.pins[0] + pin
-      ? 'spare'
-      : type;
+  let type = 'normal';
+  if ((pin === 10 && frame.pins.length === 0)
+      || frame.pins[0] === 10) {
+    type = 'strike';
+  } else if ((frame.pins.length !== 2 && frame.pins[0] + pin === 10)
+      || (frame.pins.length && frame.pins.reduce(_sum) === 10)) {
+    type = 'spare';
   }
   return type;
 };
@@ -64,13 +48,21 @@ export const _updateScoreTypeNPins = (gameData, pin) => gameData.map((frame) => 
 
 export const _sum = (sum, num) => sum + num;
 
-export const _calculateScore = (currentItem, nextItem) => {
+export const _calculateScore = (currentItem, nextItem, prevItem = { score: 0 }) => {
   let score = 0;
   if (nextItem) {
     if (currentItem.scoreType === 'strike') {
-      score = currentItem.pins.reduce(_sum) + nextItem.pins.reduce(_sum);
+      score = prevItem.score
+          + currentItem.pins.reduce(_sum)
+          + nextItem.pins.reduce(_sum)
+          + nextItem.pins.reduce(_sum);
     } else if (currentItem.scoreType === 'spare') {
-      score = currentItem.pins.reduce(_sum) + nextItem.pins[0];
+      score = prevItem.score
+          + currentItem.pins.reduce(_sum)
+          + nextItem.pins.reduce(_sum)
+          + nextItem.pins[0];
+    } else if (currentItem.scoreType === 'normal') {
+      score = prevItem.score + currentItem.pins.reduce(_sum);
     }
   } else if (currentItem.scoreType === 'normal') {
     score = currentItem.pins.reduce(_sum);
@@ -80,7 +72,7 @@ export const _calculateScore = (currentItem, nextItem) => {
 
 export const _updateScore = (gameData) => gameData.map((frame, index) => ({
   ...frame,
-  score: _calculateScore(frame, gameData[index + 1]),
+  score: _calculateScore(frame, gameData[index + 1], gameData[index - 1]),
 }));
 
 
@@ -104,7 +96,7 @@ export const _readGameData = async (filename) => {
 
 export const _getGameData = async () => {
   let gameData = await _readGameData(GAME_FILE_NAME);
-  if (!gameData.length) {
+  if (!gameData.length || process.env.NODE_ENV === 'test') {
     gameData = [_getFrameModel()];
   }
   return gameData;
@@ -117,3 +109,39 @@ export const _addNewFrameToGameData = async (gameData) => {
   }
   return gameData;
 };
+
+export const _isNotValidPinCount = (gameData, pin) => (!!(((gameData[gameData.length - 1].pins.length !== 2)
+      || ((gameData[gameData.length - 1].pins[0] || 0) + pin < 10))));
+
+
+export const roll = async (pin) => {
+  if (_isNotValidPin(pin)) { return MESSAGE.INVALID_INPUT_PIN; }
+
+  const gameData = await _getGameData();
+
+  if (_isNotValidPinCount(gameData, pin)) { return MESSAGE.INVALID_PIN_COUNT; }
+
+  const updatedGameDataA = await _addNewFrameToGameData(gameData);
+  const updatedGameDataB = await _updateScoreTypeNPins(updatedGameDataA, pin);
+  const updatedGameDataC = await _updateScore(updatedGameDataB);
+
+  if (process.env.NODE_ENV !== 'test') {
+    await _writeGameData(GAME_FILE_NAME, updatedGameDataC);
+  }
+
+  return `${JSON.stringify(updatedGameDataC, null, 2)}`;
+};
+
+export const score = () => '';
+
+const run = async () => {
+  let message = '';
+  if (process.env.SCORE) {
+    message = await score();
+  } else if (process.env.ROLL) {
+    const pin = process.argv.slice(2)[0];
+    message = await roll(parseInt(pin));
+  }
+  console.log(message);
+};
+run();
