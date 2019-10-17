@@ -18,14 +18,15 @@
         "no-console": "off",
         "radix": "off",
         "max-len": "off",
-//        "camelcase": "off",
+        "no-restricted-globals": "off",
         "no-shadow": "off",
         "no-underscore-dangle": "off",
         "no-unused-expressions": "off",
-        "no-use-before-define": "off",
-//        "import/no-extraneous-dependencies": "off",
-//        "import/prefer-default-export": "off",
-//        "func-names": "off",
-//        "no-param-reassign": "off"
+        "no-use-before-define": "off"
+        //        "camelcase": "off",
+        //        "import/no-extraneous-dependencies": "off",
+        //        "import/prefer-default-export": "off",
+        //        "func-names": "off",
+        //        "no-param-reassign": "off"
     }
 }

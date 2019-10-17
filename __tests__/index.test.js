@@ -227,6 +227,7 @@ describe('Roll', () => {
       expect(_updateScore(gameDataMock)).toEqual(gameDataExpected);
     });
     it('should validate input pin', () => {
+      expect(_isNotValidPin()).toBeTruthy();
       expect(_isNotValidPin(-1)).toBeTruthy();
       expect(_isNotValidPin(11)).toBeTruthy();
       expect(_isNotValidPin('A')).toBeTruthy();

@@ -140,7 +140,7 @@ export const _updateScore = (gameData) => gameData.map((frame, index) => ({
  * @returns {boolean}
  * @private
  */
-export const _isNotValidPin = (pin) => typeof pin !== 'number' || (pin < 0 || pin > 10);
+export const _isNotValidPin = (pin) => isNaN(pin) || typeof pin !== 'number' || (pin < 0 || pin > 10);
 
 /**
  *
@@ -280,7 +280,7 @@ const run = async () => {
     message = await score();
   } else if (process.env.ROLL) {
     const pin = process.argv.slice(2)[0];
-    message = await roll(parseInt(pin || 0));
+    message = await roll(parseInt(pin));
   }
   console.log(message);
 };
