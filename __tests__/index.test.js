@@ -1,5 +1,17 @@
-describe('Sample', () => {
-  it('should work', () => {
-    expect(1).toEqual(1);
+import {
+  roll,
+  score,
+} from '../index';
+
+describe('Roll', () => {
+  it('should return a message', () => {
+    expect(typeof roll()).toEqual('string');
+  });
+});
+
+
+describe('Score', () => {
+  it('should return a message', () => {
+    expect(typeof score()).toEqual('string');
   });
 });
