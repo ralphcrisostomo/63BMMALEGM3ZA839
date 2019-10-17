@@ -16,8 +16,10 @@
 # Install all dependencies
 $ yarn install
 
+
 # Test
-$ yarn test
+$ yarn test 
+
 ```
 ## Todo:
 

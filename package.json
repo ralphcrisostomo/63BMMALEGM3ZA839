@@ -6,7 +6,18 @@
   "author": "Ralf Crisostomo",
   "license": "MIT",
   "scripts": {
+    "test": "NODE_ENV=test jest --coverage --config jest.config.js --detectOpenHandles",
     "lint": "eslint ."
+  },
+  "engines": {
+    "node": "^10.16.0",
+    "npm": "^6.4.1",
+    "yarn": "^1.17.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run test"
+    }
   },
   "devDependencies": {
     "@babel/node": "^7.6.3",
@@ -19,6 +30,8 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
-    "eslint-plugin-react-hooks": "^1.7.0"
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^3.0.9",
+    "jest": "^24.9.0"
   }
 }

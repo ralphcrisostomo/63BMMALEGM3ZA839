@@ -15,7 +15,7 @@
         "sourceType": "module"
     },
     "rules": {
-//        "no-console": "off",
+        "no-console": "off"
 //        "camelcase": "off",
 //        "no-underscore-dangle": "off",
 //        "import/no-extraneous-dependencies": "off",
