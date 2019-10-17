@@ -11,6 +11,7 @@ import {
   _isNotValidPin,
   _writeGameData,
   _readGameData,
+  _getGameData,
 } from '../index';
 
 describe('Roll', () => {
@@ -240,6 +241,14 @@ describe('Roll', () => {
       await _writeGameData(filename, data);
       const readData = await _readGameData(filename);
       expect(typeof readData).toEqual('object');
+      done();
+    });
+    it('should get game data', async (done) => {
+      expect(await _getGameData()).toEqual({
+        score: 0,
+        scoreType: '',
+        pins: [],
+      });
       done();
     });
   });
