@@ -24,3 +24,13 @@ export const _getScoreType = (frame, pin) => {
   }
   return type;
 };
+
+export const _getPins = (frame, pin) => {
+  let { pins } = frame;
+  if (frame.pins.length !== 2) {
+    pin === 10
+      ? pins = [10, 0]
+      : pins.push(pin);
+  }
+  return pins;
+};

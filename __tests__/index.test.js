@@ -3,6 +3,7 @@ import {
   score,
   _getFrameModel,
   _getScoreType,
+  _getPins,
 } from '../index';
 
 describe('Roll', () => {
@@ -42,6 +43,25 @@ describe('Roll', () => {
       const pin = 5;
       expect(typeof _getScoreType(frame, pin)).toEqual('string');
       expect(_getScoreType(frame, pin)).toEqual('spare');
+    });
+    it('should get correct pins', () => {
+      expect(_getPins({
+        score: 0,
+        scoreType: '',
+        pins: [5],
+      }, 5)).toEqual([5, 5]);
+
+      expect(_getPins({
+        score: 0,
+        scoreType: '',
+        pins: [],
+      }, 10)).toEqual([10, 0]);
+
+      expect(_getPins({
+        score: 0,
+        scoreType: '',
+        pins: [],
+      }, 2)).toEqual([2]);
     });
   });
 });
