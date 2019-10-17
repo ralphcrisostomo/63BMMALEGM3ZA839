@@ -4,6 +4,7 @@ import {
   _getFrameModel,
   _getScoreType,
   _getPins,
+  _updateScoreTypeNPins,
 } from '../index';
 
 describe('Roll', () => {
@@ -62,6 +63,60 @@ describe('Roll', () => {
         scoreType: '',
         pins: [],
       }, 2)).toEqual([2]);
+    });
+    it('should update score type and pins on strike', () => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: '',
+          pins: [],
+        },
+      ];
+      const gameDataExpected = [
+        {
+          score: 0,
+          scoreType: 'strike',
+          pins: [10, 0],
+        },
+      ];
+      const pin = 10;
+      expect(_updateScoreTypeNPins(gameDataMock, pin)).toEqual(gameDataExpected);
+    });
+    it('should update score type and pins on normal', () => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: '',
+          pins: [],
+        },
+      ];
+      const gameDataExpected = [
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [5],
+        },
+      ];
+      const pin = 5;
+      expect(_updateScoreTypeNPins(gameDataMock, pin)).toEqual(gameDataExpected);
+    });
+    it('should update score type and pins on spare', () => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: '',
+          pins: [6],
+        },
+      ];
+      const gameDataExpected = [
+        {
+          score: 0,
+          scoreType: 'spare',
+          pins: [6, 4],
+        },
+      ];
+      const pin = 4;
+      expect(_updateScoreTypeNPins(gameDataMock, pin)).toEqual(gameDataExpected);
     });
   });
 });

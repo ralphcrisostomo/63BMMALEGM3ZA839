@@ -34,3 +34,9 @@ export const _getPins = (frame, pin) => {
   }
   return pins;
 };
+
+export const _updateScoreTypeNPins = (gameData, pin) => gameData.map((frame) => ({
+  ...frame,
+  scoreType: _getScoreType(frame, pin),
+  pins: _getPins(frame, pin),
+}));
