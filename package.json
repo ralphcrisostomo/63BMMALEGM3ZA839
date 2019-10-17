@@ -1,0 +1,8 @@
+{
+  "name": "dius-coding-test",
+  "version": "1.0.0",
+  "description": "Dius Coding Test",
+  "main": "index.js",
+  "author": "Ralf Crisostomo",
+  "license": "MIT"
+}
