@@ -22,13 +22,6 @@ describe('Roll', () => {
     expect(typeof await roll()).toEqual('string');
     done();
   });
-  it('should return a error message', async (done) => {
-    const message = 'Input should be numerical from 0 to 10';
-    expect(await roll(-1)).toEqual(message);
-    expect(await roll('A')).toEqual(message);
-    expect(await roll(11)).toEqual(message);
-    done();
-  });
   describe('Methods', () => {
     it('should return frame model', () => {
       expect(typeof _getFrameModel()).toEqual('object');

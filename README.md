@@ -1,4 +1,4 @@
-# Dius Coding Exercise
+# DiUS Coding Exercise
 
 ## Engines
 ```json
@@ -13,6 +13,9 @@
 
 ## Commands
 ```bash
+# Clone
+$ git clone ...
+
 # Install all dependencies
 $ yarn install
 
