@@ -8,11 +8,18 @@ import {
   _sum,
   _calculateScore,
   _updateScore,
+  _isNotValidPin,
 } from '../index';
 
 describe('Roll', () => {
   it('should return a message', () => {
     expect(typeof roll()).toEqual('string');
+  });
+  it('should return a error message', () => {
+    const message = 'Input should be numerical from 0 to 10';
+    expect(roll(-1)).toEqual(message);
+    expect(roll('A')).toEqual(message);
+    expect(roll(11)).toEqual(message);
   });
   describe('Methods', () => {
     it('should return frame model', () => {
@@ -217,6 +224,11 @@ describe('Roll', () => {
         },
       ];
       expect(_updateScore(gameDataMock)).toEqual(gameDataExpected);
+    });
+    it('should validate input pin', () => {
+      expect(_isNotValidPin(-1)).toBeTruthy();
+      expect(_isNotValidPin(11)).toBeTruthy();
+      expect(_isNotValidPin('A')).toBeTruthy();
     });
   });
 });

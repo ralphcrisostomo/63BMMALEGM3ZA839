@@ -1,5 +1,15 @@
+const MESSAGE = {
+  INVALID_INPUT_PIN: 'Input should be numerical from 0 to 10',
+};
 
-export const roll = () => '';
+export const _isNotValidPin = (pin) => typeof pin !== 'number' || (pin < 0 || pin > 10);
+
+export const roll = (pin) => {
+  if (_isNotValidPin(pin)) {
+    return MESSAGE.INVALID_INPUT_PIN;
+  }
+  return '';
+};
 
 export const score = () => '';
 
