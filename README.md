@@ -1,4 +1,4 @@
-# DiUS Coding Exercise
+# Coding Exercise
 
 ## Engines
 ```json
@@ -14,7 +14,7 @@
 ## Commands
 ```bash
 # Clone
-$ git clone ...
+$ git clone https://github.com/ralphcrisostomo/63BMMALEGM3ZA839
 
 # Install all dependencies
 $ yarn install

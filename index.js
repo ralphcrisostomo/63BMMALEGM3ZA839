@@ -280,7 +280,7 @@ const run = async () => {
     message = await score();
   } else if (process.env.ROLL) {
     const pin = process.argv.slice(2)[0];
-    message = await roll(parseInt(pin));
+    message = await roll(parseInt(pin || 0));
   }
   console.log(message);
 };
