@@ -12,6 +12,7 @@ import {
   _writeGameData,
   _readGameData,
   _getGameData,
+  _addNewFrameToGameData,
 } from '../index';
 
 describe('Roll', () => {
@@ -244,11 +245,72 @@ describe('Roll', () => {
       done();
     });
     it('should get game data', async (done) => {
-      expect(await _getGameData()).toEqual({
+      expect(await _getGameData()).toEqual([{
         score: 0,
         scoreType: '',
         pins: [],
-      });
+      }]);
+      done();
+    });
+    it('should add frame to game data', async (done) => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: 'spare',
+          pins: [5, 5],
+        },
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [4, 4],
+        },
+      ];
+      const gameDataExpected = [
+        {
+          score: 0,
+          scoreType: 'spare',
+          pins: [5, 5],
+        },
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [4, 4],
+        },
+        {
+          score: 0,
+          scoreType: '',
+          pins: [],
+        },
+      ];
+      expect(await _addNewFrameToGameData(gameDataMock)).toEqual(gameDataExpected);
+      done();
+    });
+    it('should not add frame to game data', async (done) => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: 'spare',
+          pins: [5, 5],
+        },
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [4],
+        },
+      ];
+      const gameDataExpected = [
+        {
+          score: 0,
+          scoreType: 'spare',
+          pins: [5, 5],
+        },
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [4],
+        },
+      ];
+      expect(await _addNewFrameToGameData(gameDataMock)).toEqual(gameDataExpected);
       done();
     });
   });

@@ -14,9 +14,12 @@ export const roll = async (pin) => {
   if (_isNotValidPin(pin)) {
     return MESSAGE.INVALID_INPUT_PIN;
   }
-  const gameData = _getGameData();
+  const gameData = await _getGameData();
+  const updatedGameDataA = await _addNewFrameToGameData(gameData);
+  const updatedGameDataB = await _updateScoreTypeNPins(updatedGameDataA, pin);
+  const updatedGameDataC = await _updateScore(updatedGameDataB);
 
-  return `${gameData}`;
+  return `${updatedGameDataC}`;
 };
 
 export const score = () => '';
@@ -102,7 +105,15 @@ export const _readGameData = async (filename) => {
 export const _getGameData = async () => {
   let gameData = await _readGameData(GAME_FILE_NAME);
   if (!gameData.length) {
-    gameData = _getFrameModel();
+    gameData = [_getFrameModel()];
+  }
+  return gameData;
+};
+
+
+export const _addNewFrameToGameData = async (gameData) => {
+  if (gameData[gameData.length - 1].pins.length === 2) {
+    gameData.push(_getFrameModel());
   }
   return gameData;
 };
