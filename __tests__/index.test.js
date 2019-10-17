@@ -9,17 +9,21 @@ import {
   _calculateScore,
   _updateScore,
   _isNotValidPin,
+  _writeGameData,
+  _readGameData,
 } from '../index';
 
 describe('Roll', () => {
-  it('should return a message', () => {
-    expect(typeof roll()).toEqual('string');
+  it('should return a message', async (done) => {
+    expect(typeof await roll()).toEqual('string');
+    done();
   });
-  it('should return a error message', () => {
+  it('should return a error message', async (done) => {
     const message = 'Input should be numerical from 0 to 10';
-    expect(roll(-1)).toEqual(message);
-    expect(roll('A')).toEqual(message);
-    expect(roll(11)).toEqual(message);
+    expect(await roll(-1)).toEqual(message);
+    expect(await roll('A')).toEqual(message);
+    expect(await roll(11)).toEqual(message);
+    done();
   });
   describe('Methods', () => {
     it('should return frame model', () => {
@@ -229,6 +233,14 @@ describe('Roll', () => {
       expect(_isNotValidPin(-1)).toBeTruthy();
       expect(_isNotValidPin(11)).toBeTruthy();
       expect(_isNotValidPin('A')).toBeTruthy();
+    });
+    it('should should write and read file', async (done) => {
+      const filename = 'test';
+      const data = [{}];
+      await _writeGameData(filename, data);
+      const readData = await _readGameData(filename);
+      expect(typeof readData).toEqual('object');
+      done();
     });
   });
 });

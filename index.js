@@ -1,13 +1,21 @@
+import fs from 'fs';
+
 const MESSAGE = {
   INVALID_INPUT_PIN: 'Input should be numerical from 0 to 10',
 };
 
-export const _isNotValidPin = (pin) => typeof pin !== 'number' || (pin < 0 || pin > 10);
+const DIR = {
+  TEMP: './temp',
+};
 
-export const roll = (pin) => {
+export const GAME_FILE_NAME = new Date().toISOString().slice(0, 10);
+
+export const roll = async (pin) => {
   if (_isNotValidPin(pin)) {
     return MESSAGE.INVALID_INPUT_PIN;
   }
+  const gameData = await _readGameData(GAME_FILE_NAME);
+  console.log(gameData);
   return '';
 };
 
@@ -71,3 +79,22 @@ export const _updateScore = (gameData) => gameData.map((frame, index) => ({
   ...frame,
   score: _calculateScore(frame, gameData[index + 1]),
 }));
+
+
+export const _isNotValidPin = (pin) => typeof pin !== 'number' || (pin < 0 || pin > 10);
+
+
+export const _writeGameData = async (filename, data) => {
+  const file = `${DIR.TEMP}/${filename}.json`;
+  await fs.writeFileSync(file, JSON.stringify(data, null, 2));
+};
+
+export const _readGameData = async (filename) => {
+  try {
+    const file = `${DIR.TEMP}/${filename}.json`;
+    const rawData = await fs.readFileSync(file, 'utf8');
+    return JSON.parse(rawData);
+  } catch (e) {
+    return [];
+  }
+};
