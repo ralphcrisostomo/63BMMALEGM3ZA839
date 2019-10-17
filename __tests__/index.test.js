@@ -5,6 +5,8 @@ import {
   _getScoreType,
   _getPins,
   _updateScoreTypeNPins,
+  _sum,
+  _calculateScore,
 } from '../index';
 
 describe('Roll', () => {
@@ -117,6 +119,59 @@ describe('Roll', () => {
       ];
       const pin = 4;
       expect(_updateScoreTypeNPins(gameDataMock, pin)).toEqual(gameDataExpected);
+    });
+    it('should return sum', () => {
+      expect(_sum(5, 5)).toEqual(10);
+    });
+    it('should calculate score for incomplete pins', () => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: '',
+          pins: [6],
+        },
+      ];
+      expect(_calculateScore(gameDataMock[0])).toEqual(0);
+    });
+    it('should calculate score for normal', () => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [4, 4],
+        },
+      ];
+      expect(_calculateScore(gameDataMock[0])).toEqual(8);
+    });
+    it('should calculate score for spare', () => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: 'spare',
+          pins: [6, 4],
+        },
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [4, 4],
+        },
+      ];
+      expect(_calculateScore(gameDataMock[0], gameDataMock[1])).toEqual(14);
+    });
+    it('should calculate score for strike', () => {
+      const gameDataMock = [
+        {
+          score: 0,
+          scoreType: 'strike',
+          pins: [10, 0],
+        },
+        {
+          score: 0,
+          scoreType: 'normal',
+          pins: [4, 4],
+        },
+      ];
+      expect(_calculateScore(gameDataMock[0], gameDataMock[1])).toEqual(18);
     });
   });
 });

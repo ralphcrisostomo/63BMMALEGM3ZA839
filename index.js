@@ -40,3 +40,19 @@ export const _updateScoreTypeNPins = (gameData, pin) => gameData.map((frame) => 
   scoreType: _getScoreType(frame, pin),
   pins: _getPins(frame, pin),
 }));
+
+export const _sum = (sum, num) => sum + num;
+
+export const _calculateScore = (currentItem, nextItem) => {
+  let score = 0;
+  if (nextItem) {
+    if (currentItem.scoreType === 'strike') {
+      score = currentItem.pins.reduce(_sum) + nextItem.pins.reduce(_sum);
+    } else if (currentItem.scoreType === 'spare') {
+      score = currentItem.pins.reduce(_sum) + nextItem.pins[0];
+    }
+  } else if (currentItem.scoreType === 'normal') {
+    score = currentItem.pins.reduce(_sum);
+  }
+  return score;
+};
