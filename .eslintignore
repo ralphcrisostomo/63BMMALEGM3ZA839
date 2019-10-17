@@ -1,0 +1,7 @@
+build
+dist
+public
+coverage
+tmp
+jobs
+node_modules
